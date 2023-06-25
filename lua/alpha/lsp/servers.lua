@@ -12,7 +12,18 @@ local default = function()
 end
 
 return {
+  ["emmet_ls"] = function()
+    local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+
+    return {
+      on_attach = lsp_attach,
+      flags = lsp_flags,
+      capabilities = capabilities,
+      filetypes = { "html", "typescriptreact", "javascriptreact", "css", "sass", "scss", "less", "blade", "vue" },
+    }
+  end,
   ["html"] = default,
+  ["tailwindcss"] = default,
   ["jsonls"] = default,
   ["lua_ls"] = function()
     return {
@@ -36,6 +47,36 @@ return {
           hint = {
             enable = true,
           }
+        },
+      },
+    }
+  end,
+  ['tsserver'] = function()
+    return {
+      on_attach = lsp_attach,
+      flags = lsp_flags,
+      settings = {
+        typescript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
+        },
+        javascript = {
+          inlayHints = {
+            includeInlayParameterNameHints = "all",
+            includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+            includeInlayFunctionParameterTypeHints = true,
+            includeInlayVariableTypeHints = true,
+            includeInlayPropertyDeclarationTypeHints = true,
+            includeInlayFunctionLikeReturnTypeHints = true,
+            includeInlayEnumMemberValueHints = true,
+          },
         },
       },
     }
