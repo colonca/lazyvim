@@ -19,14 +19,14 @@ return {
           {
             "junegunn/fzf",
             build = ":call fzf#install()",
-          }
+          },
         },
       },
     },
   },
   event = "VeryLazy",
   config = function()
-    require "alpha.telescope.setup"
-    require "alpha.telescope.mappings"
+    require("alpha.telescope.setup")
+    require("alpha.telescope.mappings")
   end,
 }

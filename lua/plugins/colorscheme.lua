@@ -7,6 +7,10 @@ return {
     },
   },
   {
+    "rebelot/kanagawa.nvim",
+    theme = "wave",
+  },
+  {
     "catppuccin/nvim",
     name = "catppuccin",
     lazy = false,

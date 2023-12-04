@@ -1,4 +1,6 @@
 local lsp_attach = require("alpha.lsp.attach")
+local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
+local util = require("lspconfig/util")
 
 local lsp_flags = {
   debounce_text_changes = 150,
@@ -12,9 +14,34 @@ local default = function()
 end
 
 return {
+  ["csharp_ls"] = function()
+    return {
+      on_attach = lsp_attach,
+      capabilities = capabilities,
+      root_dir = function(startpath)
+        return util.root_pattern("*.sln")(startpath)
+          or util.root_pattern("*.csproj")(startpath)
+          or util.root_pattern("*.fsproj")(startpath)
+          or util.root_pattern(".git")(startpath)
+      end,
+    }
+  end,
+  ["rust_analyzer"] = function()
+    return {
+      on_attach = lsp_attach,
+      capabilities = capabilities,
+      filetypes = { "rust" },
+      root_dir = util.root_pattern("cargo.toml"),
+      settings = {
+        ["rust-analyzer"] = {
+          cargo = {
+            allFeatures = true,
+          },
+        },
+      },
+    }
+  end,
   ["emmet_ls"] = function()
-    local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
-
     return {
       on_attach = lsp_attach,
       flags = lsp_flags,
@@ -46,12 +73,12 @@ return {
           },
           hint = {
             enable = true,
-          }
+          },
         },
       },
     }
   end,
-  ['tsserver'] = function()
+  ["tsserver"] = function()
     return {
       on_attach = lsp_attach,
       flags = lsp_flags,
